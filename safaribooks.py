@@ -169,12 +169,14 @@ class Display:
             return "n/d"
 
     def book_info(self, info):
+        unknown = "???"
         description = self.parse_description(info["description"]).replace("\n", " ")
         for t in [
-            ("Title", info["title"]), ("Authors", ", ".join(aut["name"] for aut in info["authors"])),
+            ("Title", info["title"] if "title" in info else unknown), 
+            ("Authors", ", ".join(aut["name"] for aut in info["authors"])),
             ("Identifier", info["identifier"]), ("ISBN", info["isbn"]),
             ("Publishers", ", ".join(pub["name"] for pub in info["publishers"])),
-            ("Rights", info["rights"]),
+            ("Rights", info["rights"]if "rights" in info else unknown),
             ("Description", description[:500] + "..." if len(description) >= 500 else description),
             ("Release Date", info["issued"]),
             ("URL", info["web_url"])
